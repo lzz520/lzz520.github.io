@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>数组去重的JavaScript实现 | 壮壮小博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="##1.最简方法创建一个空的新数组，依次检查旧数组的值是否存在于新数组中，如果不存在就push进去。主要用到数组的indexOf方法。
+function arrUnique(arr){
+            var newArr = [];
+            for (i = 0; i &amp;lt; arr.length; i++){
+                if (newArr.in">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数组去重的JavaScript实现">
+<meta property="og:url" content="http://yoursite.com/2017/03/27/数组去重/index.html">
+<meta property="og:site_name" content="壮壮小博客">
+<meta property="og:description" content="##1.最简方法创建一个空的新数组，依次检查旧数组的值是否存在于新数组中，如果不存在就push进去。主要用到数组的indexOf方法。
+function arrUnique(arr){
+            var newArr = [];
+            for (i = 0; i &amp;lt; arr.length; i++){
+                if (newArr.in">
+<meta property="og:updated_time" content="2017-03-27T13:36:48.202Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数组去重的JavaScript实现">
+<meta name="twitter:description" content="##1.最简方法创建一个空的新数组，依次检查旧数组的值是否存在于新数组中，如果不存在就push进去。主要用到数组的indexOf方法。
+function arrUnique(arr){
+            var newArr = [];
+            for (i = 0; i &amp;lt; arr.length; i++){
+                if (newArr.in">
+  
+    <link rel="alternate" href="/atom.xml" title="壮壮小博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">壮壮小博客</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">welcome blog</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-数组去重" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/03/27/数组去重/" class="article-date">
+  <time datetime="2017-03-27T13:37:39.000Z" itemprop="datePublished">2017-03-27</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      数组去重的JavaScript实现
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>##1.最简方法<br>创建一个空的新数组，依次检查旧数组的值是否存在于新数组中，如果不存在就push进去。主要用到数组的indexOf方法。</p>
+<pre><code>function arrUnique(arr){
+            var newArr = [];
+            for (i = 0; i &lt; arr.length; i++){
+                if (newArr.indexOf(arr[i]) == -1){
+                    newArr.push(arr[i]);
+                }
+            }
+            return newArr;
+        }
+        var arr = [1,2,3,4,5,3,2];
+        console.log(arrUnique(arr));
+</code></pre><p>##2.对象属性赋值1<br>通过将旧数组的值分别赋值给对象的属性，由于对象属性赋值时旧属性会被新的同名属性覆盖，所以保证了数组（属性）的单一性，最后通过for in将这些属性push到新数组中。</p>
+<pre><code>function arrUnique(arr){
+        var obj = {};
+        var newArr = [];
+        arr.map(function(item){
+            obj[item] = null;
+        })
+        for (var key in obj){
+            newArr.push(Number(key));
+        }
+        return newArr;
+    }
+    var arr = [1,2,3,4,5,3,2];
+    console.log(arrUnique(arr));
+</code></pre><p>##3.对象属性赋值2<br>创建一个空数组和空对象，检查旧数组的值是否作为对象的属性存在，如果不存在就给这个对象添加数组值属性，属性值为1，并且把这个数组的值赋值给新数组。利用的原理还是对象属性值会被覆盖，也就是说是唯一的。下标的引用要比用indexOf搜索数组快的多，所以该方法方法2快。此处的对象其实是一个哈希表，虽然速度快很多，但是内存占用较大，也就是以空间换时间。</p>
+<pre><code>function arrUnique(arr){
+        var newArr = [];
+        var obj = {};
+        for (var i = 0; i &lt; arr.length; i++){
+            if (!obj[arr[i]]){
+                newArr.push(arr[i]);
+                obj[arr[i]]=1;
+            }
+        }
+        return newArr;
+    }
+    var arr = [1,2,3,4,5,3,2];
+    console.log(arrUnique(arr));
+</code></pre><p>##4.先使用数组的sort方法排序，节省空间且速度较快<br>先对原数组排序，然后判断数组元素是否在新数组的最后一位，如果不是就push进去。这种方法比单纯循环要快很多，虽然没有哈希表方式快，但是不占用较大空间。</p>
+<pre><code>function arrUnique(arr){
+            arr.sort();//快排
+            var newArr = [];
+            for(var i = 0; i &lt; arr.length; i++){
+                if (arr[i] !== newArr[newArr.length - 1]){
+                    newArr.push(arr[i]);
+                }
+            }
+            return newArr;
+        }
+        var arr = [1,2,3,4,5,3,2];
+        console.log(arrUnique(arr));
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/03/27/数组去重/" data-id="cj0s5ip5f0001e8v5azk5xiqn" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/03/27/触底加载问题/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">触底加载问题</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/03/27/数组去重/">数组去重的JavaScript实现</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/27/触底加载问题/">触底加载问题</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/24/壮壮小博客/">壮壮小博客</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/24/hello-world/">Hello World</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 壮壮<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

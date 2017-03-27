@@ -3,17 +3,24 @@
 <head>
   <meta charset="utf-8">
   
-  <title>壮壮小博客</title>
+  <title>触底加载问题 | 壮壮小博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="this is blog">
-<meta property="og:type" content="website">
-<meta property="og:title" content="壮壮小博客">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="#移动端上的触底加载问题：
+##第一步：先获取文档的高度
+###文档高度1234567891011function getDocumentTop() &amp;#123;    var scrollTop = 0, bodyScrollTop = 0, documentScrollTop = 0;    if (document.body) &amp;#123;        bodyScrollTop = do">
+<meta property="og:type" content="article">
+<meta property="og:title" content="触底加载问题">
+<meta property="og:url" content="http://yoursite.com/2017/03/27/触底加载问题/index.html">
 <meta property="og:site_name" content="壮壮小博客">
-<meta property="og:description" content="this is blog">
+<meta property="og:description" content="#移动端上的触底加载问题：
+##第一步：先获取文档的高度
+###文档高度1234567891011function getDocumentTop() &amp;#123;    var scrollTop = 0, bodyScrollTop = 0, documentScrollTop = 0;    if (document.body) &amp;#123;        bodyScrollTop = do">
+<meta property="og:updated_time" content="2017-03-27T13:39:49.234Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="壮壮小博客">
-<meta name="twitter:description" content="this is blog">
+<meta name="twitter:title" content="触底加载问题">
+<meta name="twitter:description" content="#移动端上的触底加载问题：
+##第一步：先获取文档的高度
+###文档高度1234567891011function getDocumentTop() &amp;#123;    var scrollTop = 0, bodyScrollTop = 0, documentScrollTop = 0;    if (document.body) &amp;#123;        bodyScrollTop = do">
   
     <link rel="alternate" href="/atom.xml" title="壮壮小博客" type="application/atom+xml">
   
@@ -66,98 +73,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-数组去重" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/03/27/数组去重/" class="article-date">
-  <time datetime="2017-03-27T13:37:39.000Z" itemprop="datePublished">2017-03-27</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/27/数组去重/">数组去重的JavaScript实现</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>##1.最简方法<br>创建一个空的新数组，依次检查旧数组的值是否存在于新数组中，如果不存在就push进去。主要用到数组的indexOf方法。</p>
-<pre><code>function arrUnique(arr){
-            var newArr = [];
-            for (i = 0; i &lt; arr.length; i++){
-                if (newArr.indexOf(arr[i]) == -1){
-                    newArr.push(arr[i]);
-                }
-            }
-            return newArr;
-        }
-        var arr = [1,2,3,4,5,3,2];
-        console.log(arrUnique(arr));
-</code></pre><p>##2.对象属性赋值1<br>通过将旧数组的值分别赋值给对象的属性，由于对象属性赋值时旧属性会被新的同名属性覆盖，所以保证了数组（属性）的单一性，最后通过for in将这些属性push到新数组中。</p>
-<pre><code>function arrUnique(arr){
-        var obj = {};
-        var newArr = [];
-        arr.map(function(item){
-            obj[item] = null;
-        })
-        for (var key in obj){
-            newArr.push(Number(key));
-        }
-        return newArr;
-    }
-    var arr = [1,2,3,4,5,3,2];
-    console.log(arrUnique(arr));
-</code></pre><p>##3.对象属性赋值2<br>创建一个空数组和空对象，检查旧数组的值是否作为对象的属性存在，如果不存在就给这个对象添加数组值属性，属性值为1，并且把这个数组的值赋值给新数组。利用的原理还是对象属性值会被覆盖，也就是说是唯一的。下标的引用要比用indexOf搜索数组快的多，所以该方法方法2快。此处的对象其实是一个哈希表，虽然速度快很多，但是内存占用较大，也就是以空间换时间。</p>
-<pre><code>function arrUnique(arr){
-        var newArr = [];
-        var obj = {};
-        for (var i = 0; i &lt; arr.length; i++){
-            if (!obj[arr[i]]){
-                newArr.push(arr[i]);
-                obj[arr[i]]=1;
-            }
-        }
-        return newArr;
-    }
-    var arr = [1,2,3,4,5,3,2];
-    console.log(arrUnique(arr));
-</code></pre><p>##4.先使用数组的sort方法排序，节省空间且速度较快<br>先对原数组排序，然后判断数组元素是否在新数组的最后一位，如果不是就push进去。这种方法比单纯循环要快很多，虽然没有哈希表方式快，但是不占用较大空间。</p>
-<pre><code>function arrUnique(arr){
-            arr.sort();//快排
-            var newArr = [];
-            for(var i = 0; i &lt; arr.length; i++){
-                if (arr[i] !== newArr[newArr.length - 1]){
-                    newArr.push(arr[i]);
-                }
-            }
-            return newArr;
-        }
-        var arr = [1,2,3,4,5,3,2];
-        console.log(arrUnique(arr));
-</code></pre>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/03/27/数组去重/" data-id="cj0s5ip5f0001e8v5azk5xiqn" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-触底加载问题" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-触底加载问题" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/03/27/触底加载问题/" class="article-date">
   <time datetime="2017-03-27T02:01:00.000Z" itemprop="datePublished">2017-03-27</time>
@@ -170,8 +86,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/27/触底加载问题/">触底加载问题</a>
+    <h1 class="article-title" itemprop="name">
+      触底加载问题
     </h1>
   
 
@@ -233,92 +149,28 @@ function loadData() {   //模拟向后台异步加载数据
     </footer>
   </div>
   
-</article>
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-壮壮小博客" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/03/24/壮壮小博客/" class="article-date">
-  <time datetime="2017-03-24T13:46:39.000Z" itemprop="datePublished">2017-03-24</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
+    <a href="/2017/03/27/数组去重/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
         
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/24/壮壮小博客/">壮壮小博客</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>这是一篇测试用的文章，希望以后多分享一些东西，请大家多多关照！</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/03/24/壮壮小博客/" data-id="cj0s5ip550000e8v50m0p8200" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/03/24/hello-world/" class="article-date">
-  <time datetime="2017-03-24T12:54:30.165Z" itemprop="datePublished">2017-03-24</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
+          数组去重的JavaScript实现
         
+      </div>
+    </a>
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/24/hello-world/">Hello World</a>
-    </h1>
   
+    <a href="/2017/03/24/壮壮小博客/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">壮壮小博客</div>
+    </a>
+  
+</nav>
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/03/24/hello-world/" data-id="cj0s5ip610003e8v5tlehxgez" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
   
 </article>
-
-
-  
 
 </section>
         
